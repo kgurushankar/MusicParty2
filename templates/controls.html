@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MusicParty</title>
+</head>
+
+<body>
+    <input type="button" onclick="newSession()">
+    <input type="range" min="1" max="100" value="50" id="myRange" onchange="updateVolume();">
+</body>
+
+<script src="../assets/jquery.js"></script>
+<script>
+    function updateVolume() {
+        var val = document.getElementById("myRange").value;
+        $.ajax({
+            url: '/controls/volume', //remove localhost
+            dataType: "json",
+            type: "POST",
+            cache: false,
+            data: { volume: val },
+            success: function (data, textStatus, jqXHR) {
+                alert(data.message);
+                location.reload();
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('could not connect to server');
+            }
+        });
+    }
+    function newSession() {
+        $.ajax({
+            url: '/controls/session', //remove localhost
+            dataType: "json",
+            type: "POST",
+            cache: false,
+            data: {},
+            success: function (data, textStatus, jqXHR) {
+                alert(data.message);
+                location.reload();
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('could not connect to server');
+            }
+        });
+    }
+</script>
+
+</html>
